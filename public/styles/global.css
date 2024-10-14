@@ -8,6 +8,8 @@
   --on-footer: ;
 
   --active-link: crimson;
+
+  --hero-bg: red;
 }
 
 * {
@@ -21,6 +23,8 @@ body {
   min-height: 100svh;
   display: flex;
   flex-direction: column;
+  background-size: none;
+  background-repeat: repeat;
 }
 
 header {
@@ -45,6 +49,56 @@ nav > ul > li > a.active {
 
 main {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.hero {
+  --size: 50svh;
+  display: flex;
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 1rem;
+}
+
+.hero > .curtain-left {
+  width: 50%;
+  height: 100%;
+  background-color: var(--hero-bg);
+  position: absolute;
+  border-radius: 0 1rem 1rem 0;
+  animation: reveal 1s ease-in-out forwards;
+}
+
+.hero > .curtain-right {
+  width: 50%;
+  height: 100%;
+  background-color: var(--hero-bg);
+  right: 0;
+  position: absolute;
+  border-radius: 1rem 0 0 1rem;
+  animation: reveal 1s ease-in-out forwards;
+}
+
+@keyframes reveal {
+  0% {
+    width: 50%;
+    opacity: 1;
+  }
+  100% {
+    width: 0%;
+    opacity: 0;
+  }
+}
+
+.hero > img {
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 1rem;
 }
 
 .error-page {
@@ -64,5 +118,11 @@ footer {
 @media (hover: hover) {
   nav > ul > li > a:hover {
     text-decoration: underline;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .hero {
+    --size: 75svw;
   }
 }
