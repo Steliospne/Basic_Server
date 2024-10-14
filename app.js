@@ -2,75 +2,81 @@ const http = require("http");
 const path = require("path");
 const fs = require("fs");
 const fsp = require("fs/promises");
+const { setLinkActive, setStatus } = require("./lib/lib");
 
-const server = http.createServer((req, res) => {
-  let filePath = path.join(
-    __dirname,
-    "public",
-    req.url === "/" ? "index.html" : req.url
-  );
+const PORT = process.env.PORT || 5000;
 
-  let extName = path.extname(filePath);
+const getSubDir = (extname) => {
+  switch (extname) {
+    case ".html":
+      return "views";
+    case ".css":
+      return "styles";
+    case ".js":
+      return "lib";
+    case ".ico":
+      return "assets/icons";
+    case ".jpg":
+    case ".png":
+    case ".svg":
+      return "assets/images";
+  }
+};
 
-  let contentType = "text/html";
-
+const getContentType = (extName) => {
   switch (extName) {
     case ".js":
-      contentType = "text/javascript";
-      break;
+      return "text/javascript";
     case ".css":
-      contentType = "text/css";
-      break;
+      return "text/css";
     case ".json":
-      contentType = "application/json";
-      break;
+      return "application/json";
     case ".ico":
-      contentType = "image/x-icon";
-      break;
+      return "image/x-icon";
+    case ".jpg" || ".jpeg":
+      return "image/jpeg";
+    case ".png":
+      return "image/png";
+    default:
+      return "text/html";
   }
+};
 
-  const readFile = async (filePath) => {
-    try {
-      const data = await fsp.readFile(filePath);
-      const linkName =
-        path.basename(filePath) === "index.html"
-          ? 'href="/"'
-          : path.basename(filePath).split(".")[0];
+const getFile = async (subDir, urlPath) => {
+  try {
+    const filePath = path.join(__dirname, "public", subDir, urlPath);
+    const data = await fsp.readFile(filePath, {
+      encoding:
+        subDir === "assets/icon" || subDir === "assets/icon" ? null : "utf8",
+    });
 
-      let modifiedCont = data.toString().split(/\n/g);
+    const modifiedData = setLinkActive(data, filePath);
 
-      modifiedCont.forEach((line, index) => {
-        if (line.includes(linkName)) {
-          const parts = line.trim().split(" ");
+    return modifiedData;
+  } catch (err) {
+    throw err;
+  }
+};
 
-          if (parts.length >= 2) {
-            parts.splice(1, 0, "class='active'");
-            const newLine = parts.join(" ");
-            modifiedCont[index] = newLine;
-          }
-        }
-      });
-      modifiedCont = modifiedCont.join("\n");
-      res.writeHead(200, { "Content-Type": contentType });
-      res.end(modifiedCont, "utf8");
-    } catch (err) {
-      console.log(err);
-      if (err.code === "ENOENT") {
-        const data = await fsp.readFile(
-          path.join(__dirname, "public", "404.html"),
-          {
-            encoding: "utf8",
-          }
-        );
-        res.writeHead(200, { "Content-Type": contentType });
-        res.end(data);
-      }
-    }
-  };
+const server = http.createServer(async (req, res) => {
+  try {
+    const urlPath = req.url === "/" ? "index.html" : req.url;
+    const extName = path.extname(urlPath) || ".html";
+    const data = await getFile(getSubDir(extName), urlPath);
 
-  readFile(filePath);
+    res.writeHead(200, { "Content-Type": getContentType(extName) });
+    res.write(data);
+  } catch (err) {
+    const pageNotFount = err.code === "ENOENT";
+    const data = await getFile("views", "error.html");
+    res.writeHead(pageNotFount ? 404 : 500, {
+      "Content-Type": "text/html",
+    });
+    res.write(setStatus(data, pageNotFount ? "404" : "500"));
+  } finally {
+    res.end();
+  }
 });
-const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => {
   console.log("Server running... on port: ", PORT);
