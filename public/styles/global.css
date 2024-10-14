@@ -1,3 +1,15 @@
+:root {
+  --header-bg: darkgrey;
+  --main-bg: ;
+  --footer-bg: darkgrey;
+
+  --on-header: ;
+  --on-main: ;
+  --on-footer: ;
+
+  --active-link: crimson;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -7,10 +19,12 @@
 
 body {
   min-height: 100svh;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
-  background-color: darkgrey;
+  background-color: var(--header-bg);
 }
 
 nav > ul {
@@ -26,7 +40,11 @@ nav > ul > li > a {
 
 nav > ul > li > a.active {
   text-decoration: underline;
-  color: crimson;
+  color: var(--active-link);
+}
+
+main {
+  flex: 1;
 }
 
 .error-page {
@@ -35,6 +53,12 @@ nav > ul > li > a.active {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+footer {
+  background-color: var(--footer-bg);
+  text-align: center;
+  padding: 1rem 0;
 }
 
 @media (hover: hover) {
