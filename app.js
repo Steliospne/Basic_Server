@@ -2,9 +2,9 @@ const http = require("http");
 const path = require("path");
 const fs = require("fs");
 const fsp = require("fs/promises");
-const { setLinkActive, setStatus } = require("./lib/lib");
+const { setLinkActive, setStatus } = require("./public/lib/lib");
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || "5000";
 
 const getSubDir = (extname) => {
   switch (extname) {
@@ -16,7 +16,9 @@ const getSubDir = (extname) => {
       return "lib";
     case ".ico":
       return "assets/icons";
+    case ".webp":
     case ".jpg":
+    case ".jpeg":
     case ".png":
     case ".svg":
       return "assets/images";
@@ -33,10 +35,13 @@ const getContentType = (extName) => {
       return "application/json";
     case ".ico":
       return "image/x-icon";
-    case ".jpg" || ".jpeg":
+    case ".jpg":
+    case ".jpeg":
       return "image/jpeg";
     case ".png":
       return "image/png";
+    case ".webp":
+      return "image/webp";
     default:
       return "text/html";
   }
@@ -47,12 +52,12 @@ const getFile = async (subDir, urlPath) => {
     const filePath = path.join(__dirname, "public", subDir, urlPath);
     const data = await fsp.readFile(filePath, {
       encoding:
-        subDir === "assets/icon" || subDir === "assets/icon" ? null : "utf8",
+        subDir === "assets/images" || subDir === "assets/icons" ? null : "utf8",
     });
-
+    const extName = path.extname(urlPath);
     const modifiedData = setLinkActive(data, filePath);
 
-    return modifiedData;
+    return extName === ".html" ? modifiedData : data;
   } catch (err) {
     throw err;
   }
