@@ -5,6 +5,5 @@ export const getImage = async (filePath, contentType) => {
   });
   const blob = await data.blob();
   const imageUrl = URL.createObjectURL(blob);
-  console.log(imageUrl);
   return imageUrl;
 };
