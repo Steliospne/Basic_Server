@@ -66,7 +66,7 @@ const getFile = async (subDir, urlPath) => {
 const server = http.createServer(async (req, res) => {
   try {
     const urlPath = req.url === "/" ? "index.html" : req.url;
-    const extName = path.extname(urlPath) || ".html";
+    const extName = path.extname(urlPath === undefined ? ".html" : urlPath);
     const data = await getFile(getSubDir(extName), urlPath);
 
     res.writeHead(200, { "Content-Type": getContentType(extName) });
