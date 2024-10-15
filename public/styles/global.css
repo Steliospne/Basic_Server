@@ -1,7 +1,7 @@
 :root {
-  --header-bg: darkgrey;
+  --header-bg: #3d3d3d;
   --main-bg: ;
-  --footer-bg: darkgrey;
+  --footer-bg: var(--header-bg);
 
   --on-header: ;
   --on-main: ;
@@ -10,20 +10,21 @@
   --active-link: crimson;
 
   --hero-bg: red;
+
+  --card-bg: #5e5e5e;
 }
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  color: blueviolet;
+  color: #ffffff;
 }
 
 body {
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  background-size: none;
   background-repeat: repeat;
 }
 
@@ -40,6 +41,8 @@ nav > ul {
 
 nav > ul > li > a {
   text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 nav > ul > li > a.active {
@@ -52,11 +55,25 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+}
+
+.card {
+  max-width: 600px;
+  height: clamp(300px, 50svh, 600px);
+  background-color: var(--card-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-evenly;
+  border-radius: 1rem;
+  padding: 1rem;
+  gap: 1rem;
+  margin: 0 1rem;
 }
 
 .hero {
-  --size: 50svh;
+  --size: 35svh;
   display: flex;
   position: relative;
   width: var(--size);
@@ -70,7 +87,7 @@ main {
   background-color: var(--hero-bg);
   position: absolute;
   border-radius: 0 1rem 1rem 0;
-  animation: reveal 1s ease-in-out forwards;
+  animation: reveal 1.2s ease-in-out forwards;
 }
 
 .hero > .curtain-right {
@@ -80,7 +97,12 @@ main {
   right: 0;
   position: absolute;
   border-radius: 1rem 0 0 1rem;
-  animation: reveal 1s ease-in-out forwards;
+  animation: reveal 1.2s ease-in-out forwards;
+}
+
+.quote {
+  text-align: center;
+  max-width: 55ch;
 }
 
 @keyframes reveal {
@@ -123,6 +145,6 @@ footer {
 
 @media screen and (max-width: 600px) {
   .hero {
-    --size: 75svw;
+    --size: 50svw;
   }
 }
