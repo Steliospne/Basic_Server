@@ -3,22 +3,53 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="contact.css" />
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <script type="module" src="contact.js"></script>
     <title>Contact</title>
   </head>
   <body>
     <header>
       <nav>
         <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/about.html">About</a></li>
-          <li><a href="/contact.html">Contact</a></li>
+          <li><a name="headerLink" href="/">Home</a></li>
+          <li><a name="headerLink" href="/about.html">About</a></li>
+          <li><a name="headerLink" href="/contact.html">Contact</a></li>
         </ul>
       </nav>
     </header>
     <main>
-      <h1>Contact</h1>
+      <div class="card">
+        <div>
+          <h1>Join the World of Naruto</h1>
+          <h2>Become a Shinobi!</h2>
+        </div>
+        <p>
+          Do you have what it takes to become a legendary ninja? The Hidden Leaf
+          Village is looking for the next generation of shinobi to protect and
+          defend our way of life. Whether your dream is to master powerful
+          jutsu, unlock secret clan abilities, or even rise to the rank of
+          Hokage, your journey starts here!
+        </p>
+        <p>
+          <b>Contact us</b> now and begin your path to greatness. The world of
+          Naruto is waiting—are you ready to accept the challenge?
+        </p>
+        <form action="/">
+          <label>
+            Your message:
+            <textarea id="msg"></textarea>
+          </label>
+          <button type="submit">Send</button>
+        </form>
+      </div>
     </main>
     <footer>
       <a href="https://github.com/Steliospne">@Steliospne</a>
