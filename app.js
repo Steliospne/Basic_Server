@@ -22,6 +22,8 @@ const getSubDir = (extname) => {
     case ".png":
     case ".svg":
       return "assets/images";
+    default:
+      return "views";
   }
 };
 
@@ -65,12 +67,16 @@ const getFile = async (subDir, urlPath) => {
 
 const server = http.createServer(async (req, res) => {
   try {
-    const urlPath = req.url === "/" ? "index.html" : req.url;
-    const extName = path.extname(urlPath === undefined ? ".html" : urlPath);
-    const data = await getFile(getSubDir(extName), urlPath);
+    if (req.url !== undefined) {
+      const isIndex = req.url.split("?")[0] === "/" || req.url === "/";
+      const urlObject = new URL("https:" + (isIndex ? "index.html" : req.url));
+      const urlPath = urlObject.pathname + urlObject.host;
+      const extName = path.extname(urlPath === null ? ".html" : urlPath);
+      const data = await getFile(getSubDir(extName), urlPath);
 
-    res.writeHead(200, { "Content-Type": getContentType(extName) });
-    res.write(data);
+      res.writeHead(200, { "Content-Type": getContentType(extName) });
+      res.write(data);
+    }
   } catch (err) {
     const pageNotFount = err.code === "ENOENT";
     const data = await getFile("views", "error.html");
