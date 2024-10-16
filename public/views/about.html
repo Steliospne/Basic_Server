@@ -3,22 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="about.css" />
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <script type="module" src="about.js"></script>
     <title>About</title>
   </head>
   <body>
     <header>
       <nav>
         <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/about.html">About</a></li>
-          <li><a href="/contact.html">Contact</a></li>
+          <li><a name="headerLink" href="/">Home</a></li>
+          <li><a name="headerLink" href="/about.html">About</a></li>
+          <li><a name="headerLink" href="/contact.html">Contact</a></li>
         </ul>
       </nav>
     </header>
     <main>
-      <h1>About</h1>
+      <div class="card">
+        <h1 class="title"></h1>
+        <p class="backstory"></p>
+        <p>📚 Wiki:<a class="wiki" href="#"></a></p>
+      </div>
     </main>
     <footer>
       <a href="https://github.com/Steliospne">@Steliospne</a>
