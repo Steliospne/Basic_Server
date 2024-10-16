@@ -1,0 +1,66 @@
+body {
+  animation: scroll 100s linear infinite;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--card-bg);
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.card > div {
+  text-align: center;
+}
+
+.card > p {
+  max-width: 65ch;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+label {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+textarea {
+  height: clamp(100px, 20svh, 250px);
+  resize: none;
+  color: black;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+}
+
+button {
+  width: 50px;
+  height: 50px;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background-color: var(--color-theme);
+}
+
+@media (hover: hover) {
+  button:hover {
+    background-color: var(--color-theme);
+    filter: saturate(0.7);
+  }
+}
+
+@keyframes scroll {
+  0% {
+    background-position: 0px 0;
+  }
+  100% {
+    background-position: 1000px 1000px;
+  }
+}

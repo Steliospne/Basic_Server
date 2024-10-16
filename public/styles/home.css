@@ -1,0 +1,117 @@
+.card {
+  max-width: 600px;
+  background-color: var(--card-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  border-radius: 1rem;
+  padding: 1rem;
+  gap: 1rem;
+  margin: 0 1rem;
+}
+
+.name {
+  opacity: 0;
+}
+
+.name.load {
+  animation: reveal 1s ease-in-out forwards;
+}
+
+.hero {
+  --size: 45svh;
+  display: flex;
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 1rem;
+}
+
+.hero > .curtain-left {
+  width: 50%;
+  height: 100%;
+  background-color: black;
+  position: absolute;
+  border-radius: 1rem 0 0 1rem;
+  animation: pull-curtains 1.2s ease-in-out 0.5s forwards;
+}
+
+.hero > .curtain-middle {
+  width: 4%;
+  height: 100%;
+  background-color: black;
+  position: absolute;
+  right: calc(50% - 2%);
+  z-index: 1;
+  animation: beam 0.5s ease-in forwards;
+}
+
+.hero > .curtain-right {
+  width: 50%;
+  height: 100%;
+  background-color: black;
+  right: 0;
+  position: absolute;
+  border-radius: 0 1rem 1rem 0;
+  animation: pull-curtains 1.2s ease-in-out 0.5s forwards;
+}
+
+.quote {
+  text-align: center;
+  max-width: 55ch;
+}
+
+.quote > i {
+  opacity: 0;
+}
+
+.quote > .load {
+  animation: reveal 1s ease-in-out forwards;
+}
+
+@keyframes beam {
+  0% {
+    height: 100%;
+    opacity: 1;
+  }
+  100% {
+    height: 0%;
+    opacity: 0;
+  }
+}
+
+@keyframes pull-curtains {
+  0% {
+    width: 50%;
+    opacity: 1;
+  }
+  100% {
+    width: 0%;
+    opacity: 0;
+  }
+}
+
+.hero > img {
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 1rem;
+  opacity: 0;
+  animation: reveal 1s ease-in-out 0.5s forwards;
+}
+
+@keyframes reveal {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .hero {
+    --size: 50svw;
+  }
+}
