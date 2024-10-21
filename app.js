@@ -1,94 +1,28 @@
-const http = require("http");
-const path = require("path");
-const fs = require("fs");
-const fsp = require("fs/promises");
-const { setLinkActive, setStatus } = require("./public/lib/lib");
-
 const PORT = process.env.PORT || "5000";
 
-const getSubDir = (extname) => {
-  switch (extname) {
-    case ".html":
-      return "views";
-    case ".css":
-      return "styles";
-    case ".js":
-      return "lib";
-    case ".ico":
-      return "assets/icons";
-    case ".webp":
-    case ".jpg":
-    case ".jpeg":
-    case ".png":
-    case ".svg":
-      return "assets/images";
-    default:
-      return "views";
-  }
-};
+const express = require("express");
+const app = express();
 
-const getContentType = (extName) => {
-  switch (extName) {
-    case ".js":
-      return "text/javascript";
-    case ".css":
-      return "text/css";
-    case ".json":
-      return "application/json";
-    case ".ico":
-      return "image/x-icon";
-    case ".jpg":
-    case ".jpeg":
-      return "image/jpeg";
-    case ".png":
-      return "image/png";
-    case ".webp":
-      return "image/webp";
-    default:
-      return "text/html";
-  }
-};
+app.use(express.static("public"));
 
-const getFile = async (subDir, urlPath) => {
-  try {
-    const filePath = path.join(__dirname, "public", subDir, urlPath);
-    const data = await fsp.readFile(filePath, {
-      encoding:
-        subDir === "assets/images" || subDir === "assets/icons" ? null : "utf8",
-    });
-    const extName = path.extname(urlPath);
-    const modifiedData = setLinkActive(data, filePath);
+const routeOptions = { root: __dirname };
 
-    return extName === ".html" ? modifiedData : data;
-  } catch (err) {
-    throw err;
-  }
-};
-
-const server = http.createServer(async (req, res) => {
-  try {
-    if (req.url !== undefined) {
-      const isIndex = req.url.split("?")[0] === "/" || req.url === "/";
-      const urlObject = new URL("https:" + (isIndex ? "index.html" : req.url));
-      const urlPath = urlObject.pathname + urlObject.host;
-      const extName = path.extname(urlPath === null ? ".html" : urlPath);
-      const data = await getFile(getSubDir(extName), urlPath);
-
-      res.writeHead(200, { "Content-Type": getContentType(extName) });
-      res.write(data);
-    }
-  } catch (err) {
-    const pageNotFount = err.code === "ENOENT";
-    const data = await getFile("views", "error.html");
-    res.writeHead(pageNotFount ? 404 : 500, {
-      "Content-Type": "text/html",
-    });
-    res.write(setStatus(data, pageNotFount ? "404" : "500"));
-  } finally {
-    res.end();
-  }
+app.get("/", (req, res) => {
+  res.sendFile("/public/views/index.html", routeOptions);
 });
 
-server.listen(PORT, () => {
+app.get("/about.html", (req, res) => {
+  res.sendFile("/public/views/about.html", routeOptions);
+});
+
+app.get("/contact.html", (req, res) => {
+  res.sendFile("/public/views/contact.html", routeOptions);
+});
+
+app.get("*", (req, res) => {
+  res.sendFile("/public/views/error.html", routeOptions);
+});
+
+app.listen(PORT, () => {
   console.log("Server running... on port: ", PORT);
 });

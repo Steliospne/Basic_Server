@@ -2,7 +2,10 @@ import { getImage } from "./scripts.js";
 
 try {
   const eyes = document.querySelectorAll(".sharingan");
-  const imageURL = await getImage("/sharingan_Triple.png", "image/png");
+  const imageURL = await getImage(
+    "/assets/images" + "/sharingan_triple.png",
+    "image/png"
+  );
   eyes.forEach((eye) => {
     eye.style.backgroundImage = `url(${imageURL})`;
   });

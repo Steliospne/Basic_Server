@@ -20,7 +20,7 @@ links.forEach((link) => {
 
 try {
   document.body.style.backgroundImage = `url(${await getImage(
-    characterAPI.getAffilLogo(charId),
+    "/assets/images" + characterAPI.getAffilLogo(charId),
     "image/jpeg"
   )})`;
 } catch (error) {

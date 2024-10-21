@@ -22,9 +22,12 @@ links.forEach((link) => {
 });
 
 try {
-  img.src = await getImage(characterAPI.getCharacterImg(charId), "image/webp");
+  img.src = await getImage(
+    "/assets/images" + characterAPI.getCharacterImg(charId),
+    "image/webp"
+  );
   document.body.style.backgroundImage = `url(${await getImage(
-    characterAPI.getAffilLogo(charId),
+    "/assets/images" + characterAPI.getAffilLogo(charId),
     "image/jpeg"
   )})`;
 } catch (error) {
